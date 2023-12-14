@@ -1,121 +1,136 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 void bubbleSort(int vet[], int tamanho) {
     int i, j;
-    int comparacoes = 0; // Inicialize o contador de comparações
-    int trocas = 0; // Contador de trocas
+    long long int comparacoes = 0; 
+    long long int trocas = 0;
+    clock_t start_time, end_time;
+
+    start_time = clock();
 
     for (i = 0; i < tamanho - 1; i++) {
         for (j = 0; j < tamanho - 1 - i; j++) {
-            comparacoes++; // Incrementa o contador de comparações
+            comparacoes++; 
             if (vet[j] > vet[j + 1]) {
-                // Troca os elementos vet[j] e vet[j+1]
                 int temp = vet[j];
                 vet[j] = vet[j + 1];
                 vet[j + 1] = temp;
-                trocas++; // Incrementa o contador de trocas
+                trocas++;
             }
         }
     }
 
-    printf("Bubble Sort fez %d comparações e %d trocas.\n", comparacoes, trocas);
+    end_time = clock();
+
+    double execution_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+
+    printf("Bubble Sort fez %lld comparações e %lld trocas em %.6f segundos.\n", comparacoes, trocas, execution_time);
 }
 
 void insertionSort(int vet[], int tamanho) {
     int i, j;
-    int comparacoes = 0; // Inicialize o contador de comparações
-    int trocas = 0; // Contador de trocas
+    long long int comparacoes = 0; 
+    long long int trocas = 0; 
+    clock_t start_time, end_time;
+
+    start_time = clock();
 
     for (i = 1; i < tamanho; i++) {
         int copia = vet[i];
         j = i - 1;
         while (j >= 0 && vet[j] > copia) {
-            comparacoes++; // Incrementa o contador de comparações
-            vet[j + 1] = vet[j];
+            comparacoes++; 
+            vet[j + 1] = vet[j]; 
             j--;
-            trocas++; // Incrementa o contador de trocas
+            trocas++; 
         }
-        vet[j + 1] = copia;
+        vet[j + 1] = copia; 
     }
 
-    printf("Insertion Sort fez %d comparações e %d trocas.\n", comparacoes, trocas);
+    end_time = clock();
+
+    double execution_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+
+    printf("Insertion Sort fez %lld comparações e %lld trocas em %.6f segundos.\n", comparacoes, trocas, execution_time);
 }
 
 void selectionSort(int vet[], int tamanho) {
     int i, j;
-    int comparacoes = 0; // Inicialize o contador de comparações
-    int trocas = 0; // Contador de trocas
+    long long int comparacoes = 0; 
+    long long int trocas = 0; 
+    clock_t start_time, end_time;
+
+    start_time = clock();
 
     for (i = 0; i < tamanho - 1; i++) {
         int min_index = i;
 
         for (j = i + 1; j < tamanho; j++) {
-            comparacoes++; // Incrementa o contador de comparações
+            comparacoes++; 
             if (vet[j] < vet[min_index]) {
                 min_index = j;
             }
         }
 
-        // Troca o elemento mínimo encontrado com o elemento em i
         int temp = vet[i];
         vet[i] = vet[min_index];
         vet[min_index] = temp;
-        trocas++; // Incrementa o contador de trocas
+        trocas++; 
     }
 
-    printf("Selection Sort fez %d comparações e %d trocas.\n", comparacoes, trocas);
+    end_time = clock();
+
+    double execution_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+
+    printf("Selection Sort fez %lld comparações e %lld trocas em %.6f segundos.\n", comparacoes, trocas, execution_time);
 }
 
+void imprimirVetor(int vet[], int tamanho, const char* mensagem) {
+    printf("%s:\n", mensagem);
+    for (int i = 0; i < tamanho; i++) {
+        printf("%4d", vet[i]);
+    }
+    printf("\n\n");
+}
+
+void preencherVetorAleatorio(int vet[], int tamanho) {
+    for (int i = 0; i < tamanho; i++) {
+        vet[i] = rand() % 1000; 
+    }
+}
 int main() {
-    int i;
-    int vet[50] = {45, 5, 72, 19, 28, 2, 7, 100, 15, 33, 46, 1, 62, 11, 20, 27, 9, 104, 152, 330, 555, 3, 99, 87, 45, 10, 25, 31, 14, 68, 37, 8, 56, 22, 40, 52, 60, 42, 91, 67, 77, 51, 38, 88, 74, 69, 93, 94, 48};
-    int tamanho = sizeof(vet) / sizeof(vet[0]);
+    srand(time(NULL)); 
 
-    // Imprimir vetor original
-    printf("Vetor original:\n");
-    for (i = 0; i < tamanho; i++) {
-        printf("%4d", vet[i]);
-    }
+    int tamanhos[] = {100, 1000, 10000, 100000};
 
-    printf("\n\n");
+    printf("Deseja imprimir os vetores antes e depois da execução? (1 - Sim, 0 - Não): ");
+    int opcao;
+    scanf("%d", &opcao);
 
-    // Chamar a função bubbleSort para ordenar o vetor
-    bubbleSort(vet, tamanho);
+    for (int k = 0; k < sizeof(tamanhos) / sizeof(tamanhos[0]); k++) {
+        int tamanho = tamanhos[k];
+        int vet[tamanho]; 
 
-    // Imprimir vetor ordenado pelo Bubble Sort
-    printf("\nVetor ordenado pelo Bubble Sort:\n");
-    for (i = 0; i < tamanho; i++) {
-        printf("%4d", vet[i]);
-    }
+        printf("Tamanho do vetor: %d\n", tamanho);
 
-    printf("\n\n");
+        preencherVetorAleatorio(vet, tamanho);
 
-    // Recriar o vetor original
-   int vet2[50] = {45, 5, 72, 19, 28, 2, 7, 100, 15, 33, 46, 1, 62, 11, 20, 27, 9, 104, 152, 330, 555, 3, 99, 87, 45, 10, 25, 31, 14, 68, 37, 8, 56, 22, 40, 52, 60, 42, 91, 67, 77, 51, 38, 88, 74, 69, 93, 94, 48};
-   
-    // Chamar a função insertionSort para ordenar o vetor
-    insertionSort(vet2, tamanho);
+        if (opcao == 1) {
+            imprimirVetor(vet, tamanho, "Vetor original");
+        }
 
-    // Imprimir vetor ordenado pelo Insertion Sort
-    printf("\nVetor ordenado pelo Insertion Sort:\n");
-    for (i = 0; i < tamanho; i++) {
-        printf("%4d", vet2[i]);
-    }
+        bubbleSort(vet, tamanho);
+        insertionSort(vet, tamanho);
+        selectionSort(vet, tamanho);
 
-    printf("\n\n");
+        if (opcao == 1) {
+            imprimirVetor(vet, tamanho, "Vetor ordenado");
+        }
 
-    // Recriar o vetor original
-    int vet3[50] = {45, 5, 72, 19, 28, 2, 7, 100, 15, 33, 46, 1, 62, 11, 20, 27, 9, 104, 152, 330, 555, 3, 99, 87, 45, 10, 25, 31, 14, 68, 37, 8, 56, 22, 40, 52, 60, 42, 91, 67, 77, 51, 38, 88, 74, 69, 93, 94, 48};
-    
-    // Chamar a função selectionSort para ordenar o vetor
-    selectionSort(vet3, tamanho);
-
-    // Imprimir vetor ordenado pelo Selection Sort
-    printf("\nVetor ordenado pelo Selection Sort:\n");
-    for (i = 0; i < tamanho; i++) {
-        printf("%4d", vet3[i]);
+        printf("\n\n");
     }
 
     return 0;
 }
-
