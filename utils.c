@@ -27,7 +27,7 @@ void copiarVetor(int origem[], int destino[], int tamanho) {
 
 // Função para imprimir estatísticas
 void imprimirEstatisticas(int algoritmo, int tamanho, const char *tipoVetor, int comparacoes, int trocas, double tempo) {
-    printf("%s - %s - Tamanho: %d - Comparações: %d - Trocas: %d - Tempo: %f segundos\n",
+    printf("%s - %s - Tamanho: %d - Comparações: %d - Movimentações: %d - Tempo: %f segundos\n",
            algoritmoNome(algoritmo), tipoVetor, tamanho, comparacoes, trocas, tempo);
 }
 
