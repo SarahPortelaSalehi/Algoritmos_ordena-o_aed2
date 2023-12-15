@@ -50,6 +50,7 @@ void insertionSort(int vet[], int tamanho, int *comparacoes, int *trocas) {
             (*trocas)++; 
         }
         vet[j + 1] = copia; 
+        (*trocas)++; 
     }
 }
 
