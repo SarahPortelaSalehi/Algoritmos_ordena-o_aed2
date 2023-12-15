@@ -2,9 +2,12 @@
 void bubbleSort(int vet[], int tamanho, long long int *comparacoes, long long int *trocas) {
     int i, j;
 
+    // loop externo percorre todo o array.
     for (i = 0; i < tamanho - 1; i++) {
+        // loop interno percorre até o último elemento não ordenado.
         for (j = 0; j < tamanho - 1 - i; j++) {
             (*comparacoes)++; 
+            // verifica se o elemento atual é maior que o próximo.
             if (vet[j] > vet[j + 1]) {
                 int temp = vet[j];
                 vet[j] = vet[j + 1];
@@ -18,65 +21,87 @@ void bubbleSort(int vet[], int tamanho, long long int *comparacoes, long long in
 // Selection Sort
 void selectionSort(int vet[], int tamanho, long long int *comparacoes, long long int *trocas) {
     int i, j;
+    // loop externo percorre todo o array.
     for (i = 0; i < tamanho - 1; i++) {
+        // loop interno encontra o índice do menor elemento na parte não ordenada.
         int min_index = i;
-
         for (j = i + 1; j < tamanho; j++) {
             (*comparacoes)++; 
             if (vet[j] < vet[min_index]) {
                 min_index = j;
             }
         }
-
-        int temp = vet[i];
-        vet[i] = vet[min_index];
-        vet[min_index] = temp;
-        (*trocas)++; 
+        // Troca o menor elemento encontrado com o primeiro elemento não ordenado.
+        if (min_index != i) {
+            int temp = vet[i];
+            vet[i] = vet[min_index];
+            vet[min_index] = temp;
+            (*trocas)++;
+        }
     }
-
 }
 
 // Insertion Sort
 void insertionSort(int vet[], int tamanho, long long int *comparacoes, long long int *trocas) {
     int i, j, copia;
 
+    // Loop externo percorre todo o array
     for (i = 1; i < tamanho; i++) {
-        copia = vet[i];
+        copia = vet[i]; // Elemento a ser inserido na parte ordenada
         j = i - 1;
 
+        // Loop interno encontra a posição correta para o elemento a ser inserido
         while (j >= 0 && vet[j] > copia) {
-            (*comparacoes)++; 
-            vet[j + 1] = vet[j];
-            (*trocas)++;
+            (*comparacoes)++; // Contabiliza a comparação
+            vet[j + 1] = vet[j]; // Move elementos maiores para a direita
+            (*trocas)++; // Contabiliza a troca
             j--;
         }
 
+        // Insere o elemento na posição correta
         if (j + 1 != i) {
             vet[j + 1] = copia; 
-            (*trocas)++; 
+            (*trocas)++; // Contabiliza a troca
         } else {
-            (*comparacoes)++;
+            (*comparacoes)++; // Contabiliza a comparação (caso especial)
         }
     }
 }
 
-
-
 // Shell Sort
-void shellSort(int arr[], int n, long long int *comparacoes, long long int *trocas) {
-    for (int interval = n / 2; interval > 0; interval /= 2) {
-        for (int i = interval; i < n; i++) {
-            int temp = arr[i];
-            int j;
-            (*comparacoes)++;
-            for (j = i; j >= interval && arr[j - interval] > temp; j -= interval) {
-                (*comparacoes)++;
-                (*trocas)++;
-                arr[j] = arr[j - interval];
+void shellSort(int vet[], int tamanho, long long *comparacoes, long long *trocas) {
+    int i, j, increment, temp;
+
+    increment = 3;
+    // O loop externo controla o tamanho das lacunas.
+    while (increment > 0) {
+        // O loop interno itera pelo array.
+        for (i = 0; i < tamanho; i++) {
+            j = i;
+            temp = vet[i];
+            // O loop while interno move os elementos para frente até encontrar a posição correta.
+            while (j >= increment) {
+                (*comparacoes)++; // incrementa o contador de comparações
+                if (vet[j - increment] > temp) {
+                    (*trocas)++;
+                    vet[j] = vet[j - increment];
+                    j = j - increment;
+                } else {
+                    break; // Sai do loop quando a posição correta é encontrada
+                }
             }
-            (*trocas)++;
-            arr[j] = temp;
+            // Insere o elemento na posição correta após as movimentações.
+            if (j != i) {
+                vet[j] = temp;
+                (*trocas)++;
+            }
         }
+        if (increment / 2 != 0)
+            increment = increment / 2;
+        else if (increment == 1)
+            increment = 0;
+        else
+            increment = 1;
     }
 }
 
@@ -160,7 +185,8 @@ void heapSort(int arr[], int n, long long int *comparacoes, long long int *troca
 
 
 // Merge Sort
-void merge(int arr[], int l, int m, int r, long long int *comparacoes, long long int *trocas) {
+void merge(int arr[], int l, int m, int r, long long int *comparacoes, long long int *trocas)
+{
     int i, j, k;
     int n1 = m - l + 1;
     int n2 = r - m;
@@ -169,12 +195,10 @@ void merge(int arr[], int l, int m, int r, long long int *comparacoes, long long
     int L[n1], R[n2];
 
     // Copiar dados para vetores temporários L[] e R[]
-    for (i = 0; i < n1; i++) {
+    for (i = 0; i < n1; i++)
         L[i] = arr[l + i];
-    }
-    for (j = 0; j < n2; j++) {
+    for (j = 0; j < n2; j++)
         R[j] = arr[m + 1 + j];
-    }
 
     // Mesclar os vetores temporários de volta em arr[l..r]
     i = 0;
@@ -183,35 +207,36 @@ void merge(int arr[], int l, int m, int r, long long int *comparacoes, long long
     while (i < n1 && j < n2) {
         (*comparacoes)++;
         if (L[i] <= R[j]) {
-            (*trocas)++;
             arr[k] = L[i];
             i++;
         } else {
-            (*trocas)++;
             arr[k] = R[j];
             j++;
+            (*trocas)++;
         }
         k++;
     }
 
     // Copie os elementos restantes de L[] se houver algum
     while (i < n1) {
-        (*trocas)++;
         arr[k] = L[i];
         i++;
         k++;
+        (*trocas)++;
     }
 
     // Copie os elementos restantes de R[] se houver algum
     while (j < n2) {
-        (*trocas)++;
         arr[k] = R[j];
         j++;
         k++;
+        (*trocas)++;
     }
 }
 
-void mergeSort(int arr[], int l, int r, long long int *comparacoes, long long int *trocas) {
+// l é para o índice esquerdo e r é o índice direito do subvetor a ser ordenado
+void mergeSort(int arr[], int l, int r, long long int *comparacoes, long long int *trocas)
+{
     if (l < r) {
         int m = l + (r - l) / 2;
 
