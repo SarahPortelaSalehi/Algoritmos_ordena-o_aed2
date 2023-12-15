@@ -88,11 +88,8 @@ void testarAlgoritmo(int algoritmo, int vet[], int tamanho, const char *tipoVeto
 
     elapsedTime = getElapsedTime(&timer);
 
-    // Aqui você pode imprimir o vetor se imprimir for verdadeiro
-    if (imprimir) {
-        ImprimirVetor(vet, tamanho);
-    }
-
     // Aqui você pode imprimir as estatísticas
     imprimirEstatisticas(algoritmo, tamanho, tipoVetor, comparacoes, trocas, elapsedTime);
+
+    if (imprimir) ImprimirVetor(vet, tamanho);
 }
