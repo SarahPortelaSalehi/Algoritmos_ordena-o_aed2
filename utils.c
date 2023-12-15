@@ -26,8 +26,8 @@ void copiarVetor(int origem[], int destino[], int tamanho) {
 }
 
 // Função para imprimir estatísticas
-void imprimirEstatisticas(int algoritmo, int tamanho, const char *tipoVetor, int comparacoes, int trocas, double tempo) {
-    printf("%s - %s - Tamanho: %d - Comparações: %d - Movimentações: %d - Tempo: %f segundos\n",
+void imprimirEstatisticas(int algoritmo, int tamanho, const char *tipoVetor, long long int comparacoes, long long int trocas, double tempo) {
+    printf("%s - %s - Tamanho: %d - Comparações: %lld - Movimentações: %lld - Tempo: %f segundos\n",
            algoritmoNome(algoritmo), tipoVetor, tamanho, comparacoes, trocas, tempo);
 }
 
@@ -39,8 +39,8 @@ const char *algoritmoNome(int indice) {
 void testarAlgoritmo(int algoritmo, int vet[], int tamanho, const char *tipoVetor, int imprimir) {
     stopWatch timer;
     double elapsedTime;
-    int comparacoes = 0;
-    int trocas = 0;
+    long long int comparacoes = 0;
+    long long int trocas = 0;
 
     // Chama a função de ordenação apropriada
     switch (algoritmo) {

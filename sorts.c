@@ -1,5 +1,5 @@
 // Bubble Sort
-void bubbleSort(int vet[], int tamanho, int *comparacoes, int *trocas) {
+void bubbleSort(int vet[], int tamanho, long long int *comparacoes, long long int *trocas) {
     int i, j;
 
     for (i = 0; i < tamanho - 1; i++) {
@@ -16,7 +16,7 @@ void bubbleSort(int vet[], int tamanho, int *comparacoes, int *trocas) {
 }
 
 // Selection Sort
-void selectionSort(int vet[], int tamanho, int *comparacoes, int *trocas) {
+void selectionSort(int vet[], int tamanho, long long int *comparacoes, long long int *trocas) {
     int i, j;
     for (i = 0; i < tamanho - 1; i++) {
         int min_index = i;
@@ -37,26 +37,33 @@ void selectionSort(int vet[], int tamanho, int *comparacoes, int *trocas) {
 }
 
 // Insertion Sort
-void insertionSort(int vet[], int tamanho, int *comparacoes, int *trocas) {
-    int i, j;
+void insertionSort(int vet[], int tamanho, long long int *comparacoes, long long int *trocas) {
+    int i, j, copia;
 
     for (i = 1; i < tamanho; i++) {
-        int copia = vet[i];
+        copia = vet[i];
         j = i - 1;
+
         while (j >= 0 && vet[j] > copia) {
             (*comparacoes)++; 
-            vet[j + 1] = vet[j]; 
+            vet[j + 1] = vet[j];
+            (*trocas)++;
             j--;
-            (*trocas)++; 
         }
-        vet[j + 1] = copia; 
-        (*trocas)++; 
+
+        if (j + 1 != i) {
+            vet[j + 1] = copia; 
+            (*trocas)++; 
+        } else {
+            (*comparacoes)++;
+        }
     }
 }
 
 
+
 // Shell Sort
-void shellSort(int arr[], int n, int *comparacoes, int *trocas) {
+void shellSort(int arr[], int n, long long int *comparacoes, long long int *trocas) {
     for (int interval = n / 2; interval > 0; interval /= 2) {
         for (int i = interval; i < n; i++) {
             int temp = arr[i];
@@ -74,7 +81,7 @@ void shellSort(int arr[], int n, int *comparacoes, int *trocas) {
 }
 
 // Quick Sort
-void quickSort(int Vetor[], int Left, int Right, int *comparacoes, int *trocas) {
+void quickSort(int Vetor[], int Left, int Right, long long int *comparacoes, long long int *trocas) {
     int Aux, Pivor, L, R;
 
     L = Left;
@@ -110,7 +117,7 @@ void quickSort(int Vetor[], int Left, int Right, int *comparacoes, int *trocas) 
 }
 
 // Heap Sort
-void heapify(int arr[], int n, int i, int *comparacoes, int *trocas) {
+void heapify(int arr[], int n, int i, long long int *comparacoes, long long int *trocas) {
     int maior = i;
     int left = 2 * i + 1;
     int right = 2 * i + 2;
@@ -135,7 +142,7 @@ void heapify(int arr[], int n, int i, int *comparacoes, int *trocas) {
     }
 }
 
-void heapSort(int arr[], int n, int *comparacoes, int *trocas) {
+void heapSort(int arr[], int n, long long int *comparacoes, long long int *trocas) {
     for (int i = n / 2 - 1; i >= 0; i--) {
         heapify(arr, n, i, comparacoes, trocas);
     }
@@ -153,7 +160,7 @@ void heapSort(int arr[], int n, int *comparacoes, int *trocas) {
 
 
 // Merge Sort
-void merge(int arr[], int l, int m, int r, int *comparacoes, int *trocas) {
+void merge(int arr[], int l, int m, int r, long long int *comparacoes, long long int *trocas) {
     int i, j, k;
     int n1 = m - l + 1;
     int n2 = r - m;
@@ -204,7 +211,7 @@ void merge(int arr[], int l, int m, int r, int *comparacoes, int *trocas) {
     }
 }
 
-void mergeSort(int arr[], int l, int r, int *comparacoes, int *trocas) {
+void mergeSort(int arr[], int l, int r, long long int *comparacoes, long long int *trocas) {
     if (l < r) {
         int m = l + (r - l) / 2;
 
